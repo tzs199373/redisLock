@@ -22,13 +22,7 @@ public class RedisLock {
     public void doSomethingWithLock() {
         RLock lock = redisson.getLock("lockName");
         try{
-            // 1. 最常见的使用方法
-            //lock.lock();
-            // 2. 支持过期解锁功能,10秒钟以后自动解锁, 无需调用unlock方法手动解锁
-            //lock.lock(10, TimeUnit.SECONDS);
-
-
-            // 3. 尝试加锁，最多等待2秒，上锁以后100秒自动解锁,故意把解锁时间设置长
+            //尝试加锁，最多等待2秒，上锁以后100秒自动解锁,故意把解锁时间设置长
             boolean res = lock.tryLock(2, 100, TimeUnit.SECONDS);
             if(res){ //成功
                 //处理业务
