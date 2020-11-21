@@ -1,6 +1,5 @@
-package com.redisson.compoent;
+package com.redisson.compoent.lock;
 
-import org.redisson.Redisson;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,26 +21,26 @@ public class RedisLock {
     public void doSomethingWithLock() {
         RLock lock = redisson.getLock("lockName");
         try{
-            //å°è¯•åŠ é”ï¼Œæœ€å¤šç­‰å¾…2ç§’ï¼Œä¸Šé”ä»¥å100ç§’è‡ªåŠ¨è§£é”,æ•…æ„æŠŠè§£é”æ—¶é—´è®¾ç½®é•¿
+            //³¢ÊÔ¼ÓËø£¬×î¶àµÈ´ı2Ãë£¬ÉÏËøÒÔºó100Ãë×Ô¶¯½âËø,¹ÊÒâ°Ñ½âËøÊ±¼äÉèÖÃ³¤
             boolean res = lock.tryLock(2, 100, TimeUnit.SECONDS);
-            if(res){ //æˆåŠŸ
-                //å¤„ç†ä¸šåŠ¡
+            if(res){ //³É¹¦
+                //´¦ÀíÒµÎñ
                 System.out.println("lock success");
                 System.out.println("do something");
-                Thread.sleep(1000*100);//æ¨¡æ‹Ÿä¸šåŠ¡å¤„ç†100s
+                Thread.sleep(1000*100);//Ä£ÄâÒµÎñ´¦Àí100s
             }else{
                 System.out.println("not allow to do something");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
-            if(lock.isLocked()){ // æ˜¯å¦è¿˜æ˜¯é”å®šçŠ¶æ€
+            if(lock.isLocked()){ // ÊÇ·ñ»¹ÊÇËø¶¨×´Ì¬
                 System.out.println("prepare to unlock");
-                if(lock.isHeldByCurrentThread()){ // æ˜¯å¦æ˜¯å½“å‰æ‰§è¡Œçº¿ç¨‹çš„é”
-                    lock.unlock(); // é‡Šæ”¾é”
+                if(lock.isHeldByCurrentThread()){ // ÊÇ·ñÊÇµ±Ç°Ö´ĞĞÏß³ÌµÄËø
+                    lock.unlock(); // ÊÍ·ÅËø
                     System.out.println("unlock success");
                 }else{
-                    System.out.println("not locked by current thread");//å¯¹åº”ä¸Šé”çš„çº¿ç¨‹æ‰èƒ½è§£é”
+                    System.out.println("not locked by current thread");//¶ÔÓ¦ÉÏËøµÄÏß³Ì²ÅÄÜ½âËø
                 }
             }
         }
