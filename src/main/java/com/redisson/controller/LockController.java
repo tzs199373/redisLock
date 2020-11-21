@@ -6,12 +6,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class TestController {
+public class LockController {
     @Autowired
     private RedisLock redisLock;
 
-    @RequestMapping("test")
-    public String test(){
+    @RequestMapping("testLock")
+    public String testLock(){
         redisLock.doSomethingWithLock();
         return "success";
     }
